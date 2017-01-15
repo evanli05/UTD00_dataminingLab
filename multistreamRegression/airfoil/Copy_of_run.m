@@ -1,15 +1,15 @@
-clear;
+ clear;
 %add path
 path = '../common/';
 path = genpath(path);
 addpath(path);
-dataName = 'airfoil';
+dataName = 'driftData';
 % load data
 dataFile = [dataName '_input'];
 
 
 load(dataFile);
-data = airfoil;
+data = driftDataset;
 numData = size(data,2);
 d = size(data,1)-1;
 
