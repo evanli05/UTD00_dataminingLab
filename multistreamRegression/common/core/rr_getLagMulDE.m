@@ -113,9 +113,11 @@ while true
     %M = M+rate*decay*speed*GM.^(-1/2).*(-appGradient);
     preM = M;
     M = preM+rate*decay*speed*appGradient;
-    if(M<=0)
-        error('variance is negative!');
-    end
+%     if(M<=0)
+%         error('variance is negative!');
+%     end
+%     comment out by yl
+
 %     diffMyy = M(1,1)-preM(1,1);
 %     while(M(1,1)<lowBMyy)
 %         M(1,1) = M(1,1)+abs(diffMyy)/2;

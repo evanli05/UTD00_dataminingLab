@@ -14,7 +14,7 @@ function dataConceptDrift = generateDataset()
 
 
 for i = 1:3
-    dataConceptDriftTemp = zeros(randint(1,1,[2000,5000]),7);
+    dataConceptDriftTemp = zeros(500,7);
     nRows = max(size(dataConceptDriftTemp));
     randomArray = rand(nRows,5);
     if i == 1
@@ -39,5 +39,6 @@ for i = 1:3
    
 end
 
-dataConceptDrift = dataConceptDrift{3};
+dataConceptDrift = dataConceptDrift{3}';
+save('dataDrift.mat','dataConceptDrift')
     

@@ -1,45 +1,45 @@
-clear;
+ clear;
 %add path
 path = '../common/';
 path = genpath(path);
 addpath(path);
-dataName = 'airfoil';
+% dataName = 'airfoil';
+dataName = 'dataDrift';
 % load data
-dataFile = [dataName '_input'];
+dataFile = 'dataCDrift';
 
 
 load(dataFile);
-data = airfoil;
+% data = D_input;
+data = norDataDrift;
 numData = size(data,2);
 d = size(data,1)-1;
 
 maxNumTrain = floor(numData/2);
-% nTrainList = floor([0.2 0.4 0.6 0.8 1]*maxNumTrain);
-nTrainList = floor([0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1]*maxNumTrain);
+nTrainList = floor([0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1]* maxNumTrain);
 numTrain = size(nTrainList,2);
-denMethodList = [1 2 3 4];
+% denMethodList = [1 2 3 4];
+denMethodList = [1];
 numMethod = size(denMethodList,2);
 
 nR = 10;
-% used to be 100;
 
 infor.dataName = dataName;
 infor.numData = numData;
 infor.numAttr = d;
 infor.nTrainList = nTrainList;
-infor.logLossMean = zeros(2,5,4);
-infor.conf = zeros(2,5,4);
-% infor.logLossMean = zeros(7,10,4);
-% infor.conf = zeros(7,10,4);
+infor.logLossMean = zeros(7,10,4);
+infor.conf = zeros(7,10,4);
 
 for k = 1:numMethod
     denMethod = denMethodList(1,k);
     for j = 1:numTrain
+        disp(['No. of training = ', numTrain]);
         nTrain = nTrainList(1,j);
         iFail = 0;
         rDEFail = 0;
         rKLDFail = 0;
-        logLossMatrix = zeros(2,1);
+        logLossMatrix = zeros(7,1);
         i=0;
         while i <= nR-1
             i = i+1;
@@ -90,38 +90,38 @@ for k = 1:numMethod
             tarData = rr_getBaseLogLoss(tarData,meanBase,varBase);
             baseLogLoss = tarData.baseLogLoss;
             
-%             %%  linear method
-%             % get theta estimated variance for different gamma
-%             [thetaList,gammaList,estVarList] = rr_getWLR(srcData);
-%             if(isnan(thetaList))
-%                 iFail = iFail+1;
-%                 i = i-1;
-%                 continue;
-%             end
-%             
-%             tarData = rr_getLsLogLoss(tarData,gammaList,thetaList,estVarList);
-%             lsLogLoss = tarData.lsLogLoss;
-%             
-%             tarData = rr_getBestAIWLogLoss(tarData,gammaList,thetaList,estVarList);
-%             lsBAIWLogLoss = tarData.lsBAIWLogLoss;
-%             
-%             tarData = rr_getIWLogLoss(tarData,gammaList,thetaList,estVarList);
-%             lsIWLogLoss = tarData.lsIWLogLoss;
-%             
-%             tarData = rr_getBLogLoss(srcData,tarData,1*eye(d+1),estVarList(:,1));
-%             lsBLogLoss = tarData.lsBLogLoss;
-%             
-%             %%  robust differential entropy method
-%             % get the lagrangian multiplier matrix
-%             % the last three parameters stopThd, rateInitial, decayTune
-%             MDE = rr_getLagMulDE(srcData,1e-2,1e-2,300);
-%             if(isnan(MDE))
-%                 rDEFail = rDEFail + 1;
-%                 i = i - 1;
-%                 continue;
-%             end
-%             tarData = rr_getRobustDELogLoss(MDE,tarData);
-%             robustDELogLoss = tarData.robustDELogLoss;
+            %%  linear method
+            % get theta estimated variance for different gamma
+            [thetaList,gammaList,estVarList] = rr_getWLR(srcData);
+            if(isnan(thetaList))
+                iFail = iFail+1;
+                i = i-1;
+                continue;
+            end
+            
+            tarData = rr_getLsLogLoss(tarData,gammaList,thetaList,estVarList);
+            lsLogLoss = tarData.lsLogLoss;
+            
+            tarData = rr_getBestAIWLogLoss(tarData,gammaList,thetaList,estVarList);
+            lsBAIWLogLoss = tarData.lsBAIWLogLoss;
+            
+            tarData = rr_getIWLogLoss(tarData,gammaList,thetaList,estVarList);
+            lsIWLogLoss = tarData.lsIWLogLoss;
+            
+            tarData = rr_getBLogLoss(srcData,tarData,1*eye(d+1),estVarList(:,1));
+            lsBLogLoss = tarData.lsBLogLoss;
+            
+            %%  robust differential entropy method
+            % get the lagrangian multiplier matrix
+            % the last three parameters stopThd, rateInitial, decayTune
+            MDE = rr_getLagMulDE(srcData,1e-2,1e-2,300);
+            if(isnan(MDE))
+                rDEFail = rDEFail + 1;
+                i = i - 1;
+                continue;
+            end
+            tarData = rr_getRobustDELogLoss(MDE,tarData);
+            robustDELogLoss = tarData.robustDELogLoss;
             
             %%  robust Kullback-Leibler divergence method
             % get the lagrangian multiplier matrix
@@ -136,9 +136,7 @@ for k = 1:numMethod
             robustKLDLogLoss = tarData.robustKLDLogLoss;
             
             %% save result
-            
-            logLossMatrix(:,i)=[robustKLDLogLoss;baseLogLoss];
-%             logLossMatrix(:,i)=[robustDELogLoss;robustKLDLogLoss;baseLogLoss;lsLogLoss;lsBAIWLogLoss;lsIWLogLoss;lsBLogLoss];
+            logLossMatrix(:,i)=[robustDELogLoss;robustKLDLogLoss;baseLogLoss;lsLogLoss;lsBAIWLogLoss;lsIWLogLoss;lsBLogLoss];
             %   display(tarData);
             display([i j k]);
             display(mean(logLossMatrix,2));
