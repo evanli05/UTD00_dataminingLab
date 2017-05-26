@@ -1,0 +1,40 @@
+name of data:dataDrift
+number of data:1500
+number of attributes:5
+various training number:75
+
+liner logistic regression
+0.37344	0	0	0	0	0	0	0	0	0
+0.2526	0	0	0	0	0	0	0	0	0
+0.59433	0	0	0	0	0	0	0	0	0
+0.28795	0	0	0	0	0	0	0	0	0
+0.26563	0	0	0	0	0	0	0	0	0
+0.97806	0	0	0	0	0	0	0	0	0
+0.25232	0	0	0	0	0	0	0	0	0
+
+L2 liner logistic regression via 10 cross validation
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+
+gaussian kernel logistic regression
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+
+L2 gaussian kernel logistic regression via 10 cross validation
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
