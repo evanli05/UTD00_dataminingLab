@@ -38,6 +38,7 @@ class Regression(object):
             else:
                 reader = csv.DictReader(csvfile, fieldnames=header, delimiter=delimiter)
             for row in reader:
+                #print row
                 tmp = [float(x) for x in row]
                 if data is None:
                     data = np.array(tmp)
@@ -71,7 +72,7 @@ class Regression(object):
         m, n = data_matrix.shape
         covariance, mean = Regression.get_covariance(data_matrix)
         for i in range(m):
-            p = multivariate_normal.pdf(data_matrix[i, :], mean.tolist()[0], covariance)
+            p = multivariate_normal.pdf(data_matrix[i, :], mean.tolist()[0], covariance, allow_singular=True)
             weight.append(p)
         return weight
 
@@ -209,7 +210,7 @@ class Regression(object):
         return lower_bound
 
     @staticmethod
-    def start(init_m, data_matrix, stop_thd, rate_initial, decay_tune, iteration=2000):
+    def start(init_m, data_matrix, stop_thd, rate_initial, decay_tune, iteration=500):
         """
         start training process
         :param init_m: a row matrix of initial values of m
@@ -281,31 +282,27 @@ class Regression(object):
             error += abs(prediction_value[i]-true_value[i])
         return error/len(prediction_value)
 
-if __name__ == '__main__':
-    regression = Regression()
-    accResult = np.zeros([1,10])
-    #matrix_ = Regression.read_csv('../GGsrc', size=None)
-    for i in xrange(1,11):
-        matrix_ = Regression.read_csv('C:\Users\yifan\OneDrive - The University of Texas at Dallas\Workspace\UTD00_dataminingLab\multistreamRegression\SynGlobalAbruptDrift_source_stream1.csv', size=i*100)
-        m_size, n_size = matrix_.shape
-        m0_ = np.matrix(np.zeros(1 + n_size), dtype=np.float64)
-        stopThd = 1e-5
-        rateInitial = 0.01
-        decayTune = 0.01
-        iteration = 2000
-        # find execution time
-        start_time = time.clock()
-        best_m_ = Regression.start(
-            m0_, matrix_, stop_thd=stopThd, rate_initial=rateInitial, decay_tune=decayTune, iteration=iteration)
-        end_time = time.clock()
-        print "Execution time for %d iterations is: %s min" % (
-            iteration, (end_time-start_time)/60.0)
-        print "train done"
-        #target_ = Regression.read_csv('../GGtarget', size=None)
-        target_ = Regression.read_csv('C:\Users\yifan\OneDrive - The University of Texas at Dallas\Workspace\UTD00_dataminingLab\multistreamRegression\SynGlobalAbruptDrift_target_stream1.csv', size=i*900)
-        _, predict_y = Regression.get_est_mean(best_m_, target_)
-        true_y = Regression.get_true_y(target_)
-        trr = Regression.get_prediction_error(predict_y, true_y)
-        print "target avg error size 900:", trr
-        accResult[0][i-1] = trr
-        
+# if __name__ == '__main__':
+#     regression = Regression()
+#     #matrix_ = Regression.read_csv('../GGsrc', size=None)
+#     matrix_ = Regression.read_csv('../pm2.5_srcFile.csv', size=400)
+#     m_size, n_size = matrix_.shape
+#     m0_ = np.matrix(np.zeros(1 + n_size), dtype=np.float64)
+#     stopThd = 1e-5
+#     rateInitial = 0.01
+#     decayTune = 0.01
+#     iteration = 1000
+#     # find execution time
+#     start_time = time.clock()
+#     best_m_ = Regression.start(
+#         m0_, matrix_, stop_thd=stopThd, rate_initial=rateInitial, decay_tune=decayTune, iteration=iteration)
+#     end_time = time.clock()
+#     print "Execution time for %d iterations is: %s min" % (
+#         iteration, (end_time-start_time)/60.0)
+#     print "train done"
+#     #target_ = Regression.read_csv('../GGtarget', size=None)
+#     target_ = Regression.read_csv('../pm2.5_trgFile.csv', size=10000)
+#     _, predict_y = Regression.get_est_mean(best_m_, target_)
+#     true_y = Regression.get_true_y(target_)
+#     trr = Regression.get_prediction_error(predict_y, true_y)
+#     print "target avg error size pm2.5_f400:", trr
