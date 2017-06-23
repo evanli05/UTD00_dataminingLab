@@ -48,7 +48,7 @@ def genData(outSrcFile, outTrgFile, numInd, n, srcSplit):
 	variance = m.pow(np.std(np.sqrt(distSquares)), 2)
 
 	numSrcPoints = 0
-	print("writing the first concept points")
+	print("writing No.1 concept points")
 	for i in range(len(distSquares)):
 		prob = m.exp(-1*(distSquares[i]/(2*variance)))
 		print prob, distSquares[i], variance
@@ -81,7 +81,7 @@ def genData(outSrcFile, outTrgFile, numInd, n, srcSplit):
 	variance = m.pow(np.std(np.sqrt(distSquares)), 2)
 
 	numSrcPoints = 0
-	print("writing the second concept points")
+	print("writing No.", k, "concept points")
 	for i in range(len(distSquares)):
 		prob = m.exp(-1 * (distSquares[i] / (2 * variance)))
 		randNum = r.random()

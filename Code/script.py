@@ -81,7 +81,7 @@ if __name__ == '__main__':
     dataName = "Syndata_c5"
     rate = 0.5
     d = 40
-    noCluster = 5
+    noCluster = 3
 
     sfPath = 'C:/Users/yifan/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/Code/Data/' + dataName + '/' + dataName + '_' + str(rate) + '_d=' + str(
         d) + '.mat';

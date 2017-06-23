@@ -36,7 +36,8 @@ class Regression(object):
             if not header:
                 reader = csv.reader(csvfile, delimiter=delimiter)
             else:
-                reader = csv.DictReader(csvfile, fieldnames=header, delimiter=delimiter)
+                reader = csv.DictReader(csvfile, fieldnames=header, 
+                                        delimiter=delimiter)
             for row in reader:
                 #print row
                 tmp = [float(x) for x in row]
@@ -54,8 +55,10 @@ class Regression(object):
     def get_covariance(data_matrix):
         """
         calculate covariance between attributes
-        :param data_matrix: M * N matrix where M - number of instances, N- number of features
-        :return: covariance - covariance between features. x_mean - an array contains mean value of each attribute
+        :param data_matrix: M * N matrix where M - number of instances, N- 
+        number of features
+        :return: covariance - covariance between features. x_mean - an 
+        array contains mean value of each attribute
         """
         covariance = np.cov(data_matrix.transpose())
         x_mean = np.mean(data_matrix, 0)
@@ -64,24 +67,29 @@ class Regression(object):
     @staticmethod
     def cal_weight(data_matrix):
         """
-        weight here is the probability density function p.d.f value for each data instance.
-        :param data_matrix: M * N matrix where M - number of instances, N- number of features
+        weight here is the probability density function p.d.f value for each
+        data instance.
+        :param data_matrix: M * N matrix where M - number of instances, 
+        N- number of features
         :return: a list of weight for each instance in the data matrix
         """
         weight = []
         m, n = data_matrix.shape
         covariance, mean = Regression.get_covariance(data_matrix)
         for i in range(m):
-            p = multivariate_normal.pdf(data_matrix[i, :], mean.tolist()[0], covariance, allow_singular=True)
+            p = multivariate_normal.pdf(data_matrix[i, :], mean.tolist()[0], 
+                                        covariance, allow_singular=True)
             weight.append(p)
         return weight
 
     @staticmethod
     def get_empirical_mean(data_matrix):
         """
-        :param data_matrix: M*(N+1) matrix, M - number of instances, N - number of features, 
+        :param data_matrix: M*(N+1) matrix, M - number of instances, N - number
+        of features, 
         the last column is target value
-        :return: empirical_mean, a one-row matrix of values corresponds to [Y, x1,x2,x3,...,xn, 1]
+        :return: empirical_mean, a one-row matrix of values corresponds to [Y, 
+        x1,x2,x3,...,xn, 1]
         """
         m, n = data_matrix.shape
         # initialize parameters
@@ -126,14 +134,16 @@ class Regression(object):
             else:
                 tmp = sample.tolist()[0]
                 tmp.append(1)
-                mean_y = 1 / (2 * w * m_yy + (1 / var_base)) * (-2 * w * m_yx1 * np.matrix(
-                    tmp, dtype=np.float64).transpose() + (1 / var_base) * mean_base)
+                mean_y = 1 / (2 * w * m_yy + (1 / var_base)) * (-2 * w * m_yx1 
+                             * np.matrix(tmp, dtype=np.float64).transpose() + 
+                             (1 / var_base) * mean_base)
                 var_y = 1 / (2 * w * m_yy + (1 / var_base))
                 mean_y = mean_y.tolist()[0][0]
             mu.append(mean_y)
             add_var_y = np.matrix(np.zeros(n_+2), dtype=np.float64)
             add_var_y[0, 0] = var_y
-            app_est_mean += np.matrix([mean_y] + sample.tolist()[0] + [1], dtype=np.float64) * mean_y + add_var_y
+            app_est_mean += np.matrix([mean_y] + sample.tolist()[0] + [1], 
+                                      dtype=np.float64) * mean_y + add_var_y
         app_est_mean /= float(m_)
         return app_est_mean, mu
 
@@ -153,8 +163,8 @@ class Regression(object):
         return app_gradient, avg_error
 
     @staticmethod
-    def update_m(m, step, decay, speed, data_matrix, estimated_mean=None, app_gradient=None,
-                 empirical_mean=None, lambdas=None):
+    def update_m(m, step, decay, speed, data_matrix, estimated_mean=None, 
+                 app_gradient=None, empirical_mean=None, lambdas=None):
         """
         :param m: a row matrix of values for m
         :param step: 
@@ -176,7 +186,8 @@ class Regression(object):
         if app_gradient is None:
             if empirical_mean is None:
                 empirical_mean = Regression.get_empirical_mean(data_matrix)
-            app_gradient, avg_error = Regression.get_update_value_and_error(est_mean, empirical_mean, m, lambdas)
+            app_gradient, avg_error = Regression.get_update_value_and_error(
+                    est_mean, empirical_mean, m, lambdas)
         else:
             app_gradient = app_gradient
         tmp1 = app_gradient.tolist()[0]
@@ -210,7 +221,8 @@ class Regression(object):
         return lower_bound
 
     @staticmethod
-    def start(init_m, data_matrix, stop_thd, rate_initial, decay_tune, iteration=500):
+    def start(init_m, data_matrix, stop_thd, rate_initial, decay_tune, 
+              iteration=500):
         """
         start training process
         :param init_m: a row matrix of initial values of m

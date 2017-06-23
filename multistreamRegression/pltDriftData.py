@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
 
-matrix = np.genfromtxt('RegSynGlobalAbruptDrift_target_stream.csv, delimiter=',')
+matrix = np.genfromtxt('C:/Users/skinnycook/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/RegSynGlobalAbruptDrift_target_stream.csv, delimiter=',')
 plt.plot(data[:,5], data[:,0], 'ro') 
 plt.show()
 

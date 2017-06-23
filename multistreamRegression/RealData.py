@@ -45,4 +45,4 @@ class RealData(object):
 
 if __name__ == '__main__':
     pm = RealData()
-    matrix_ = RealData.read_csv('C:\Users\yifan\OneDrive - The University of Texas at Dallas\Workspace\UTD00_dataminingLab\multistreamRegression\PRSA_data_2010.1.1-2014.12.31.csv', size=None)
+    matrix_ = RealData.read_csv('C:/Users/yifan/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/PRSA_data_2010.1.1-2014.12.31.csv', size=None)
