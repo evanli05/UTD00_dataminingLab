@@ -23,8 +23,8 @@ class RegularUpdate(object):
         super(RegularUpdate, self).__init__()
 
     @staticmethod
-    def init_y_hat(src_path='C:/Users/yifan/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/pm2.5_srcFile.csv',
-                   tgt_path='C:/Users/yifan/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/pm2.5_trgFile.csv', src_size=1000, stopThd = 1e-5, rateInitial = 0.01,
+    def init_y_hat(src_path='C:/Users/sk/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/pm2.5_srcFile.csv',
+                   tgt_path='C:/Users/sk/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/pm2.5_trgFile.csv', src_size=1000, stopThd = 1e-5, rateInitial = 0.01,
                    decayTune = 0.01, iteration = 2000, tgt_size=9000):
         """
         input is: source dataset with y, here we assume it is a list of list, the name is source, target dataset with yhat, 

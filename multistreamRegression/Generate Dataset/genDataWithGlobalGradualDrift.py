@@ -137,4 +137,4 @@ def genData(outSrcFile, outTrgFile, numInd, numDrift):
 	foutTrgFile.close()
 
 
-genData('RegSynGlobalGradualDrift_source_streamhalf.csv', 'RegSynGlobalGradualDrift_target_streamhalf.csv', 5, 10)
+genData('RegSynGlobalGradualDrift_source_streamhalf.csv', 'RegSynGlobalGradualDrift_target_streamhalf.csv', 5, 5)
