@@ -111,7 +111,7 @@ class Update(object):
 
     def __init__(self):
         super(Update, self).__init__()
-        self.change_detection = ChangeDetection(gamma=0.5, maxWindowSize=2000, sensitivity=0.05)
+        self.change_detection = ChangeDetection(gamma=0.5, maxWindowSize=2000, sensitivity=0.1)
 
     sourceList=[]
     targetList=[]
@@ -144,8 +144,8 @@ class Update(object):
         return conf
 
     @staticmethod
-    def init_y_hat(source_matrix=None, target_matrix=None, src_path='C:/Users/sk/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/RegSynGlobalGradualDrift_source_streamhalf.csv',
-                   tgt_path='C:/Users/sk/OneDrive - The University of Texas at Dallas/Workspace/UTD00_dataminingLab/multistreamRegression/RegSynGlobalGradualDrift_target_streamhalf.csv', src_size=500, stopThd = 1e-5, rateInitial = 0.01,
+    def init_y_hat(source_matrix=None, target_matrix=None, src_path='RegSynGlobalGradualDrift_source_streamhalf.csv',
+                   tgt_path='RegSynGlobalGradualDrift_target_streamhalf.csv', src_size=500, stopThd = 1e-5, rateInitial = 0.01,
                    decayTune = 0.01, iteration = 1000, tgt_size=None):
         """
         input is: source dataset with y, here we assume it is a list of list, the name is source, target dataset with yhat, 
@@ -200,7 +200,7 @@ class Update(object):
                 print len(tmpyhat0)
                 tmperror2 = Update.get_prediction_error(tmpyhat0, tmptrue_y10)
 
-                with open('error_19synpmnodirftupdatenerandomdrift.csv', 'a+') as f:
+                with open('error_rstreamsyn_01.csv', 'a+') as f:
                     writer = csv.writer(f)
                     writer.writerow([targetIndex, tmperror2])
                 tempsource = []
@@ -300,7 +300,7 @@ class Update(object):
                         print len(tmpyhat)
                         tmperror1 = Update.get_prediction_error(tmpyhat, tmptrue_y1)
 
-                        with open('error_maxwindow2000.csv','a+') as f:
+                        with open('error_rstreammaxWin2000_01.csv','a+') as f:
                             writer = csv.writer(f)
                             writer.writerow([index, tmperror1])
                         tempsource = []

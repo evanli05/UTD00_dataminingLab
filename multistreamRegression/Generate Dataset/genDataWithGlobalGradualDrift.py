@@ -28,7 +28,7 @@ options = {1: getYAccFirstConcept,
 		   2: getYAccSecondConcept,
 		   3: getYAccThirdConcept}
 
-numInConcept = 10000
+numInConcept = 5000
 srcSplit = float(np.random.randint(1,5))/10
 
 """

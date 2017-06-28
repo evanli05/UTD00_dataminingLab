@@ -10,7 +10,7 @@ from operator import truediv
 from random import randint
 import random
 import csv
-from my_code.Regression1 import Regression
+from Regression1 import Regression
 import time
 
 
@@ -141,8 +141,8 @@ class Update(object):
         return conf
 
     @staticmethod
-    def init_y_hat(source_matrix=None, target_matrix=None, src_path='pm2.5_srcFile.csv',
-                   tgt_path='pm2.5_trgFile.csv', src_size=500, stopThd = 1e-5, rateInitial = 0.01,
+    def init_y_hat(source_matrix=None, target_matrix=None, src_path='RegSynGlobalGradualDrift_source_streamhalf.csv',
+                   tgt_path='RegSynGlobalGradualDrift_target_streamhalf.csv', src_size=500, stopThd = 1e-5, rateInitial = 0.01,
                    decayTune = 0.01, iteration = 200000, tgt_size=None):
         """
         input is: source dataset with y, here we assume it is a list of list, the name is source, target dataset with yhat, 
@@ -224,70 +224,75 @@ class Update(object):
                 print changeIndex_source
                 print "check2"
 
-                # if changeIndex != -1 and changeIndex_source !=-1:
-                #     index = changeIndex +targetIndex -len(temptarget)+1
-                #     index_source = changeIndex_source + sourceIndex - len(tempsource) + 1
-                #
-                #     updatetarget = target[index:targetIndex, :]
-                #     updatetarget0 = target[targetIndex-len(temptarget)+1:index,:]
-                #
-                #     if sourceIndex-index_source>20:
-                #         updatesource = source[index_source:sourceIndex,:]
-                #         tmp = None
-                #         for each_row in updatesource:
-                #             if tmp is None:
-                #                 tmp = each_row
-                #             else:
-                #                 tmp = np.vstack((tmp, each_row))
-                #         updatesource = tmp
-                #         m_size ,n_size = source.shape
-                #         m0_ = np.matrix(np.zeros(1 + n_size), dtype=np.float64)
-                #
-                #         best_m1_ = Regression.start(
-                #             m0_, updatesource, updatetarget,stop_thd=stopThd, rate_initial=rateInitial, decay_tune=decayTune, iteration=iteration)
-                #         print "Re-training1 Complete!"
-                #         predict_y1 = Regression.get_predictY(best_m1_, updatesource, updatetarget)
-                #
-                #         if index_source-sourceIndex+len(tempsource)-1>20:
-                #             updatesource0 = source[sourceIndex-len(tempsource)+1:index_source,:]
-                #             tmp0 = None
-                #             for each_row0 in updatesource0:
-                #                 if tmp0 is None:
-                #                     tmp0 = each_row0
-                #                 else:
-                #                     tmp0 = np.vstack((tmp0, each_row0))
-                #             updatesource0 = tmp0
-                #
-                #             m00_ = np.matrix(np.zeros(1 + n_size), dtype=np.float64)
-                #
-                #             best_m10_ = Regression.start(
-                #                 m00_, updatesource0, updatetarget0,stop_thd=stopThd, rate_initial=rateInitial, decay_tune=decayTune, iteration=iteration)
-                #             print "Re-training0 Complete!"
-                #             predict_y0 = Regression.get_predictY(best_m10_, updatesource0,updatetarget0)
-                #             for p in range(0,changeIndex):
-                #                 currentyhat[p] = predict_y0[p]
-                #         for k in range(changeIndex,len(currentyhat)):
-                #             currentyhat[k] = predict_y1[k-changeIndex]
-                #
-                #
-                #
-                #         yhat = yhat + currentyhat
-                #         true_y1 = Update.get_true_y(Update.init_y_hat()[1])
-                #         tmptrue_y1 = true_y1[:len(yhat)]
-                #         tmpyhat = yhat
-                #         print 'tmpyhatlen'
-                #         print len(tmpyhat)
-                #         tmperror1 = Update.get_prediction_error(tmpyhat, tmptrue_y1)
-                #
-                #         with open('error_19testtargetpm.csv','a+') as f:
-                #             writer = csv.writer(f)
-                #             writer.writerow([index, tmperror1])
-                #         with open('error_19testsourcepm.csv', 'a+') as f:
-                #             writer = csv.writer(f)
-                #             writer.writerow([index_source, tmperror1])
-                #         tempsource = []
-                #         temptarget = []
-                # if distribution changes, return current index, else -1
+                # comment here
+
+                if changeIndex != -1 and changeIndex_source !=-1:
+                    index = changeIndex +targetIndex -len(temptarget)+1
+                    index_source = changeIndex_source + sourceIndex - len(tempsource) + 1
+                
+                    updatetarget = target[index:targetIndex, :]
+                    updatetarget0 = target[targetIndex-len(temptarget)+1:index,:]
+                
+                    if sourceIndex-index_source>20:
+                        updatesource = source[index_source:sourceIndex,:]
+                        tmp = None
+                        for each_row in updatesource:
+                            if tmp is None:
+                                tmp = each_row
+                            else:
+                                tmp = np.vstack((tmp, each_row))
+                        updatesource = tmp
+                        m_size ,n_size = source.shape
+                        m0_ = np.matrix(np.zeros(1 + n_size), dtype=np.float64)
+                
+                        best_m1_ = Regression.start(
+                            m0_, updatesource, updatetarget,stop_thd=stopThd, rate_initial=rateInitial, decay_tune=decayTune, iteration=iteration)
+                        print "Re-training1 Complete!"
+                        predict_y1 = Regression.get_predictY(best_m1_, updatesource, updatetarget)
+                
+                        if index_source-sourceIndex+len(tempsource)-1>20:
+                            updatesource0 = source[sourceIndex-len(tempsource)+1:index_source,:]
+                            tmp0 = None
+                            for each_row0 in updatesource0:
+                                if tmp0 is None:
+                                    tmp0 = each_row0
+                                else:
+                                    tmp0 = np.vstack((tmp0, each_row0))
+                            updatesource0 = tmp0
+                
+                            m00_ = np.matrix(np.zeros(1 + n_size), dtype=np.float64)
+                
+                            best_m10_ = Regression.start(
+                                m00_, updatesource0, updatetarget0,stop_thd=stopThd, rate_initial=rateInitial, decay_tune=decayTune, iteration=iteration)
+                            print "Re-training0 Complete!"
+                            predict_y0 = Regression.get_predictY(best_m10_, updatesource0,updatetarget0)
+                            for p in range(0,changeIndex):
+                                currentyhat[p] = predict_y0[p]
+                        for k in range(changeIndex,len(currentyhat)):
+                            currentyhat[k] = predict_y1[k-changeIndex]
+                
+                
+                
+                        yhat = yhat + currentyhat
+                        true_y1 = Update.get_true_y(Update.init_y_hat()[1])
+                        tmptrue_y1 = true_y1[:len(yhat)]
+                        tmpyhat = yhat
+                        print 'tmpyhatlen'
+                        print len(tmpyhat)
+                        tmperror1 = Update.get_prediction_error(tmpyhat, tmptrue_y1)
+                
+                        with open('error_rstreamasyntrain_01.csv','a+') as f:
+                            writer = csv.writer(f)
+                            writer.writerow([index, tmperror1])
+                        with open('error_rstreamasyntest_01.csv', 'a+') as f:
+                            writer = csv.writer(f)
+                            writer.writerow([index_source, tmperror1])
+                        tempsource = []
+                        temptarget = []
+                # if distribution changes return current index, else -1
+
+                # comment here
+
                 if changeIndex != -1 and changeIndex_source ==-1:
                     index = changeIndex +targetIndex -len(temptarget)+1
                     updatetarget = target[index:targetIndex, :]
@@ -331,7 +336,7 @@ class Update(object):
                         print len(tmpyhat)
                         tmperror1 = Update.get_prediction_error(tmpyhat, tmptrue_y1)
 
-                        with open('error_testtargetwithdriftsrcnodriftpm.csv','a+') as f:
+                        with open('error_rstreamaynwin_01.csv','a+') as f:
                             writer = csv.writer(f)
                             writer.writerow([index, tmperror1])
                         tempsource = []
