@@ -144,9 +144,13 @@ class Update(object):
         return conf
 
     @staticmethod
-    def init_y_hat(source_matrix=None, target_matrix=None, src_path='RegSynGlobalGradualDrift_source_streamhalf.csv',
-                   tgt_path='RegSynGlobalGradualDrift_target_streamhalf.csv', src_size=500, stopThd = 1e-5, rateInitial = 0.01,
-                   decayTune = 0.01, iteration = 1000, tgt_size=None):
+    def init_y_hat(source_matrix=None, target_matrix=None, src_path='pm2.5_srcFile.csv',
+                   tgt_path='pm2.5_trgFile.csv', src_size=500, stopThd = 1e-5, rateInitial = 0.01,
+                   decayTune = 0.1, iteration = 1000, tgt_size=None):
+
+    # decayTone = 0.01
+
+
         """
         input is: source dataset with y, here we assume it is a list of list, the name is source, target dataset with yhat, 
         here we assume it is a list of list, the name is target 
@@ -164,7 +168,7 @@ class Update(object):
 
         return source_matrix_, target_
 
-    def UpdateModel(self, source, target, stopThd = 1e-5, rateInitial = 0.01, decayTune = 0.01, iteration = 1000):
+    def UpdateModel(self, source, target, stopThd = 1e-5, rateInitial = 0.01, decayTune = 0.1, iteration = 1000):
 
         yhat = []
         tempsource = []
@@ -200,7 +204,7 @@ class Update(object):
                 print len(tmpyhat0)
                 tmperror2 = Update.get_prediction_error(tmpyhat0, tmptrue_y10)
 
-                with open('error_rstreamsyn_01.csv', 'a+') as f:
+                with open('error_rstreamsyn_02.csv', 'a+') as f:
                     writer = csv.writer(f)
                     writer.writerow([targetIndex, tmperror2])
                 tempsource = []
@@ -300,7 +304,7 @@ class Update(object):
                         print len(tmpyhat)
                         tmperror1 = Update.get_prediction_error(tmpyhat, tmptrue_y1)
 
-                        with open('error_rstreammaxWin2000_01.csv','a+') as f:
+                        with open('error_rstreammaxWin2000_02.csv','a+') as f:
                             writer = csv.writer(f)
                             writer.writerow([index, tmperror1])
                         tempsource = []
