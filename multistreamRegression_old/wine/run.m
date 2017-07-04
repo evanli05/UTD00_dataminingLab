@@ -3,13 +3,13 @@ clear;
 path = '../common/';
 path = genpath(path);
 addpath(path);
-dataName = 'airfoil';
+dataName = 'wine';
 % load data
 dataFile = [dataName '_input'];
 
 
 load(dataFile);
-data = airfoil;
+data = wine;
 % number of instances
 numData = size(data,2);
 % number of independent variables

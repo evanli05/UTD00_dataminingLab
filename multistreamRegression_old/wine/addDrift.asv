@@ -1,0 +1,12 @@
+
+driftcases(-1);
+dr
+
+switch driftcases
+    case -1
+        srcDrift(max(size(src))+1:max(size(src))+244,1:11) = src(1:244, 1:11)
+        srcDrift(max(size(src))+1:max(size(src))+244,12) = src(1:244, 12) - 1
+    case 1
+        srcDrift(max(size(src))+1:max(size(src))+244,1:11) = src(1:244, 1:11)
+        srcDrift(max(size(src))+1:max(size(src))+244,12) = src(1:244, 12) + 1
+end
